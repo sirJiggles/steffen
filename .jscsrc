@@ -1,0 +1,15 @@
+{
+  "preset": "google",
+  "disallowMultipleVarDecl": null,
+  "requireMultipleVarDecl": null,
+  "validateLineBreaks": "LF",
+  "validateIndentation": 2,
+  "maximumLineLength": 100,
+  "disallowSpacesInAnonymousFunctionExpression": null,
+  "excludeFiles": [
+    "node_modules/**/*",
+    "dist/**/*"
+  ],
+  "maxErrors": 50,
+  "requireOperatorBeforeLineBreak": null
+}

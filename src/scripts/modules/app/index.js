@@ -1,6 +1,7 @@
 module.exports = angular.module('app', [
   'ui.router',
-  'ngAnimate'
+  'ngAnimate',
+  require('../index').name
 ]);
 
 require('./config.js');
