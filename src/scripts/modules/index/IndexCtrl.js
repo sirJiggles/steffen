@@ -24,7 +24,7 @@ function IndexCtrl() {
   var azimuth = getSunLocation();
 
   // TODO offest the deg based on direction you are facing
-  castTop = -Math.sin(azimuth);
+  castTop = Math.sin(azimuth);
   castLeft = -Math.cos(azimuth);
 
   for (var i = 1; i <= castDistance; i++) {
