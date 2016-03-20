@@ -14,7 +14,6 @@ function settingsService() {
     setLocation: setLocation
   };
 
-
   // Getters
   function getLocation() {
     return getAttr('location', false);

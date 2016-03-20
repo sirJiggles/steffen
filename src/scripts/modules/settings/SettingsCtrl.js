@@ -14,7 +14,9 @@ function SettingsCtrl(settingsService) {
   var autocomplete = new google.maps.places.Autocomplete(input);
 
   autocomplete.addListener('place_changed', function() {
+
     var place = autocomplete.getPlace();
+    console.log(place);
     if (place.geometry) {
       // store the location
       settingsService.setLocation({
