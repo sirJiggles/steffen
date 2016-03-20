@@ -21,6 +21,9 @@
         },
         "cordova-plugin-device-orientation": {
             "PACKAGE_NAME": "garethfuller.steffen"
+        },
+        "cordova-plugin-geolocation": {
+            "PACKAGE_NAME": "garethfuller.steffen"
         }
     },
     "dependent_plugins": {}

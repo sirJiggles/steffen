@@ -4,7 +4,7 @@ require('./')
 /**
  * @ngInject
  */
-function IndexCtrl($cordovaDeviceOrientation) {
+function IndexCtrl($cordovaDeviceOrientation, $cordovaGeolocation) {
 
   var vm = this,
       castDistance = 50,
@@ -21,21 +21,24 @@ function IndexCtrl($cordovaDeviceOrientation) {
       opacity,
       top,
       left,
-      trail;
+      trail,
+      lat,
+      long;
 
-  updateShadow(0);
+  // get the at long of the user
+  $cordovaGeolocation.getCurrentPosition({
+    timeout: 10000,
+    enableHighAccuracy: true
+  }).then(function(position){
+    lat = position.coords.latitude;
+    long = position.coords.longitude;
+
+    updateShadow(0);
+  });
 
   ionic.Platform.ready(function() {
     watchCompass();
   });
-  var deg = 0;
-  // tetsing spinning
-  // window.setInterval(function() {
-  //   deg = deg + 10;
-  //   compass.css({transform: 'rotate('+deg+'deg)'});
-  //   updateShadow(deg);
-  // }, 500);
-
 
   function watchCompass() {
     var options = {
@@ -54,7 +57,6 @@ function IndexCtrl($cordovaDeviceOrientation) {
         compass.css({transform: 'rotate('+compassRotate+'deg)'});
         // update shadow (dependant on direction)
         updateShadow(compassRotate);
-
       }
     );
   }
@@ -63,13 +65,12 @@ function IndexCtrl($cordovaDeviceOrientation) {
     var azimuth = getSunLocation();
     var sunDeg = (azimuth * 180 / Math.PI);
     var relativeDeg = deg - sunDeg;
-    // var radians = relativeDeg * 180 / Math.PI;
-    // console.log(radians);
     azimuth = (-relativeDeg / 180 * Math.PI);
 
     castTop = Math.sin(azimuth);
     castLeft = -Math.cos(azimuth);
 
+    // reset shadow before casting a new one
     shadow = '';
 
     for (var i = 1; i <= castDistance; i++) {
@@ -87,8 +88,7 @@ function IndexCtrl($cordovaDeviceOrientation) {
   }
 
   function getSunLocation() {
-    // var times = SunCalc.getTimes(new Date(), 51.5, -0.1);
-    var position = SunCalc.getPosition(new Date(), 51.5, -0.1);
+    var position = SunCalc.getPosition(new Date(), lat, long);
     return position.azimuth;
   }
 
