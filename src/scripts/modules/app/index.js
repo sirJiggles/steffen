@@ -4,7 +4,8 @@ module.exports = angular.module('app', [
   'ngCordova',
   'ngAnimate',
   require('../index').name,
-  require('../settings').name
+  require('../settings').name,
+  require('../settings-service').name
 ]);
 
 require('./config.js');

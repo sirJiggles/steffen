@@ -7,6 +7,7 @@ require('./')
 function IndexCtrl(
   $cordovaDeviceOrientation,
   $cordovaGeolocation,
+  settingsService,
   $interval) {
 
   // init all our vars
@@ -39,17 +40,35 @@ function IndexCtrl(
   vm.background = 'sand-babe';
   vm.day = true;
 
-  // get the at long of the user
-  $cordovaGeolocation.getCurrentPosition({
-    timeout: 10000,
-    enableHighAccuracy: true
-  }).then(function(position){
-    lat = position.coords.latitude;
-    long = position.coords.longitude;
+  var settingsLatLong = settingsService.getLocation();
 
+  if (!settingsLatLong) {
+    // get the at long of the user
+    $cordovaGeolocation.getCurrentPosition({
+      timeout: 10000,
+      enableHighAccuracy: true
+    }).then(function(position){
+      run({
+        lat: position.coords.latitude,
+        long: position.coords.longitude
+      });
+    });
+
+  } else {
+    run(settingsLatLong);
+  }
+
+  ionic.Platform.ready(function() {
+    watchCompass();
+  });
+
+  function run(position) {
     // ozzy
     // lat = 33.8650;
     // long = 151.2094;
+    //
+    lat = position.lat;
+    long = position.long;
 
     // store the times only once (when sunrise etc)
     times = SunCalc.getTimes(new Date(), lat, long);
@@ -67,12 +86,7 @@ function IndexCtrl(
     $interval(function() {
       updateScreen();
     }, 300000);
-
-  });
-
-  ionic.Platform.ready(function() {
-    watchCompass();
-  });
+  }
 
   function checkIfNight() {
     // check if it is night

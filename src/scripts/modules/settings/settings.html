@@ -1,22 +1,65 @@
-<ion-view title="Settings" class="settings">
-  <ion-content>
+<ion-view title="Settings" class="settings view-100">
+  <ion-content class="gradient lavender-skies">
+
     <form name="settingsForm">
-      <div class="list">
-        <div class="item item-divider">
-          Settings
-        </div>
-        <label class="item item-input item-select">
-          <span class="input-label">
-            Rounds
-          </span>
-          <select
-            ng-model="vm.rounds"
-            required="required"
-            ng-change="vm.changes()"
-            ng-options="i for i in vm.possibleRounds">
-          </select>
+      <div class="list list-inset">
+        <label class="item item-input">
+          <i class="icon flaticon flaticon-search"></i>
+          <input
+            id="location"
+            type="text"
+            placeholder="Custom Location">
         </label>
+        <div class="item">
+          <button
+            class="button button-full"
+            ng-click="vm.resetLocation()">
+            Clear location
+          </button>
+        </div>
       </div>
     </form>
+
+    <div class="list list-inset credits">
+      <div class="item item-divider">
+        Credits
+      </div>
+      <div class="item">
+        <h3>Sun / Moon Js library</h3>
+        <a href="https://github.com/mourner/suncalc">
+           https://github.com/mourner/suncalc
+        </a>
+      </div>
+      <div class="item">
+        <h3>Background Gradients</h3>
+        <a href="http://codepen.io/tumanova/pen/tkvmi">
+           http://codepen.io/tumanova/pen/tkvmi
+        </a>
+      </div>
+      <div class="item">
+        <h3>Icon - Compass</h3>
+        <a href="http://www.freepik.com/">
+           Freepik - flaticons.com
+        </a>
+      </div>
+      <div class="item">
+        <h3>Icon - Home</h3>
+        <a href="http://www.freepik.com/">
+           Freepik - flaticons.com
+        </a>
+      </div>
+      <div class="item">
+        <h3>Icon - Search</h3>
+        <a href="http://www.flaticon.com/authors/hanan/">
+           Hanan - flaticons.com
+        </a>
+      </div>
+      <div class="item">
+        <h3>Icon - Settings</h3>
+        <a href="http://www.freepik.com/">
+           Freepik - flaticons.com
+        </a>
+      </div>
+    </div>
   </ion-content>
 </ion-view>

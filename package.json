@@ -29,7 +29,6 @@
     "ionic-sdk": "git+https://github.com/driftyco/ionic.git",
     "ios-sim": "^5.0.4",
     "jshint-stylish": "^2.1.0",
-    "localforage": "^1.3.0",
     "require-dir": "^0.3.0",
     "run-sequence": "^1.1.5",
     "stringify": "^3.2.0",

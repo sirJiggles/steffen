@@ -1,6 +1,6 @@
     /*
     Flaticon icon font: Flaticon
-    Creation date: 20/03/2016 13:42
+    Creation date: 20/03/2016 23:38
     */
 
     @font-face {
@@ -37,9 +37,11 @@
     }
 
     .flaticon-compass:before { content: "\f100"; }
-.flaticon-settings:before { content: "\f101"; }
-.flaticon-sun:before { content: "\f102"; }
+.flaticon-search:before { content: "\f101"; }
+.flaticon-settings:before { content: "\f102"; }
+.flaticon-sun:before { content: "\f103"; }
     
     $font-Flaticon-compass: "\f100";
-    $font-Flaticon-settings: "\f101";
-    $font-Flaticon-sun: "\f102";
+    $font-Flaticon-search: "\f101";
+    $font-Flaticon-settings: "\f102";
+    $font-Flaticon-sun: "\f103";
