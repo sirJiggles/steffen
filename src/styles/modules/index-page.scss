@@ -1,7 +1,6 @@
 .index {
-
   background-color: #E3C027 !important;
-  $boxsize: 60;
+  $boxsize: 160;
 
   .shadow {
     display: flex;
@@ -17,6 +16,8 @@
       height: #{$boxsize}px;
       background-color: white;
       position: relative;
+      border-radius: 100%;
+      background-color: lighten(#E3C027, 30%);
     }
   }
 
@@ -24,12 +25,17 @@
     position: absolute;
     bottom: 20px;
     right: 20px;
-    transform-origin: center;
-    transform: rotate(45deg);
+    line-height: 1;
+    width: 40px;
+    height: 40px;
+    transition: transform 0.2s linear;
 
     &:before {
       color: white;
       font-size: 40px;
+      transform-origin: center;
+      transform: rotate(45deg);
+      display: block;
     }
   }
 }

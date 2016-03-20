@@ -18,6 +18,9 @@
         },
         "cordova-plugin-console": {
             "PACKAGE_NAME": "garethfuller.steffen"
+        },
+        "cordova-plugin-device-orientation": {
+            "PACKAGE_NAME": "garethfuller.steffen"
         }
     },
     "dependent_plugins": {}

@@ -17,7 +17,5 @@ function config(
 
   $ionicConfigProvider.tabs.position('bottom');
 
-  $urlRouterProvider.when('', '/index');
-
   $urlRouterProvider.when('', '/');
 }
