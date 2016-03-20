@@ -42,7 +42,9 @@
     "cordova": "^5.4.0",
     "ng-cordova": "^0.1.23-alpha"
   },
-  "cordovaPlugins": [],
+  "cordovaPlugins": [
+    "cordova-plugin-crosswalk-webview"
+  ],
   "cordovaPlatforms": [
     "ios"
   ]
