@@ -49,9 +49,12 @@ function IndexCtrl(
     lat = position.coords.latitude;
     long = position.coords.longitude;
 
+    // lat = 33.8650;
+    // long = 151.2094;
+
     // store the times only once (when sunrise etc)
     times = SunCalc.getTimes(new Date(), lat, long);
-    sunsetIn = new Date(times.sunset);
+    sunsetIn = new Date(times.sunsetStart);
     sunriseIn = new Date(times.sunrise);
 
     // sunset / rise ticker
@@ -73,18 +76,33 @@ function IndexCtrl(
 
   // this is called every five mins for things like bg
   function updateScreen() {
-    updateShadow(0);
+    updateShadow(compassRotate);
     // Pick the gradient for the background
     var now = new Date();
     var gradient = '';
 
-    if (now > times.dawn && now < times.sunriseEnd) {
+    console.log(times);
+
+    // make some dates for us to compare with
+    var dawn = new Date(times.dawn),
+        sunriseEnd = new Date(times.sunriseEnd),
+        sunsetStart = new Date(times.sunsetStart),
+        sunsetEnd = new Date(times.sunsetEnd);
+
+    console.log(now);
+    console.log(dawn);
+    console.log(sunriseEnd);
+    if (now > dawn && now < sunriseEnd) {
+      console.log('in');
       gradient = pickRandomItem(dawns);
-    } else if(now > times.sunriseEnd && now < times.sunsetStart) {
+    } else if(now > sunriseEnd && now < sunsetStart) {
+      console.log('here');
       gradient = pickRandomItem(days);
-    } else if(now < times.sunsetStart && now < times.sunsetEnd) {
+    } else if(now < sunsetStart && now < sunsetEnd) {
+      console.log('now');
       gradient = pickRandomItem(sunsets);
     } else {
+      console.log('else');
       gradient = pickRandomItem(nights);
     }
 
