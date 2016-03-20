@@ -9,6 +9,7 @@ function IndexCtrl(
   $cordovaGeolocation,
   $interval) {
 
+  // init all our vars
   var vm = this,
       castDistance = 50,
       color = 0,
@@ -17,14 +18,10 @@ function IndexCtrl(
       compass = angular.element(document.querySelector('.compass')),
       box = angular.element(document.querySelector('.shadow__box')),
       step = 3,
-      compassRotate = 0;
-
-  // vars used for creating the shadow rules
-  var shadow = '',
+      compassRotate = 0,
+      shadow = '',
       opacity,
       times,
-      sunsetIn,
-      sunriseIn,
       top,
       left,
       trail,
@@ -38,8 +35,9 @@ function IndexCtrl(
       nights = ['indigo-magic','lady-night','mauve-hour','magic-hour','grape-soda','coyier-magic','baseball-field','miami-strip'];
 
 
+  // some defaults
   vm.background = 'sand-babe';
-  vm.rising = false;
+  vm.day = true;
 
   // get the at long of the user
   $cordovaGeolocation.getCurrentPosition({
@@ -49,13 +47,15 @@ function IndexCtrl(
     lat = position.coords.latitude;
     long = position.coords.longitude;
 
+    // ozzy
     // lat = 33.8650;
     // long = 151.2094;
 
     // store the times only once (when sunrise etc)
     times = SunCalc.getTimes(new Date(), lat, long);
-    sunsetIn = new Date(times.sunsetStart);
-    sunriseIn = new Date(times.sunrise);
+
+    // function to set if night or day
+    checkIfNight();
 
     // sunset / rise ticker
     tick();
@@ -74,41 +74,35 @@ function IndexCtrl(
     watchCompass();
   });
 
+  function checkIfNight() {
+    // check if it is night
+    var now = new Date();
+    if (now > times.sunset) {
+      vm.day = false;
+    }
+
+    // so we dont duplicate creating this
+    return now;
+  }
+
   // this is called every five mins for things like bg
   function updateScreen() {
     updateShadow(compassRotate);
     // Pick the gradient for the background
     var now = new Date();
-    var gradient = '';
 
-    console.log(times);
-
-    // make some dates for us to compare with
-    var dawn = new Date(times.dawn),
-        sunriseEnd = new Date(times.sunriseEnd),
-        sunsetStart = new Date(times.sunsetStart),
-        sunsetEnd = new Date(times.sunsetEnd);
-
-    console.log(now);
-    console.log(dawn);
-    console.log(sunriseEnd);
-    if (now > dawn && now < sunriseEnd) {
-      console.log('in');
-      gradient = pickRandomItem(dawns);
-    } else if(now > sunriseEnd && now < sunsetStart) {
-      console.log('here');
-      gradient = pickRandomItem(days);
-    } else if(now < sunsetStart && now < sunsetEnd) {
-      console.log('now');
-      gradient = pickRandomItem(sunsets);
+    if (now > times.dawn && now < times.sunriseEnd) {
+      vm.background = pickRandomItem(dawns);
+    } else if(now > times.sunriseEnd && now < times.sunsetStart) {
+      vm.background = pickRandomItem(days);
+    } else if(now < times.sunsetStart && now < times.sunset) {
+      vm.background = pickRandomItem(sunsets);
     } else {
-      console.log('else');
-      gradient = pickRandomItem(nights);
+      vm.background = pickRandomItem(nights);
     }
-
-    vm.background = gradient;
   }
 
+  // pick a random for gradient
   function pickRandomItem(array) {
     return array[Math.floor(Math.random()*array.length)];
   }
@@ -124,7 +118,7 @@ function IndexCtrl(
       function(error) {
         // An error occurred
       },
-      function(result) {   // updates constantly (depending on frequency value)
+      function(result) {
         compassRotate = result.magneticHeading;
         // update compass
         compass.css({transform: 'rotate('+compassRotate+'deg)'});
@@ -167,22 +161,22 @@ function IndexCtrl(
 
   // the ticker for the sunset / sunrise countdown
   function tick() {
-    var now = new Date();
     var diff = 0;
 
-    if (now < sunsetIn) {
+    // re check the now stamp
+    var now = checkIfNight();
+
+    if (vm.day) {
       vm.setText = 'Sunset in';
-      vm.rising = false;
-      diff = sunsetIn - now;
+      diff = times.sunsetStart - now;
     } else {
       vm.setText = 'Sunrise in';
-      diff = sunriseIn - now;
-      vm.rising = true;
+      diff = times.sunrise - now;
     }
 
+    // strange that we need to remove an hour ..
     diff = diff - 3600000;
 
-    // not sure why and extra hour is getting added on  ...
     vm.countdown = new Date(diff);
   }
 

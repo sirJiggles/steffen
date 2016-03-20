@@ -18,7 +18,7 @@ $module: '.index';
       background-color: white;
       position: relative;
       border-radius: 100%;
-      background-color: lighten(#E3C027, 30%);
+      background-color: #f7eec5;
     }
   }
 
@@ -28,6 +28,7 @@ $module: '.index';
     width: 100%;
     left: 0;
     text-align: center;
+    text-shadow: #444 1px 1px 6px;
 
     &__type,
     &__in {
@@ -45,6 +46,7 @@ $module: '.index';
     width: 40px;
     height: 40px;
     transition: transform 0.2s linear;
+    text-shadow: #aaa 1px 0px 1px;
 
     &:before {
       color: white;
@@ -57,7 +59,6 @@ $module: '.index';
 
   // overides for the light version
   &--dark {
-
     .shadow__box {
       background-color: darken(white, 10%);
     }
