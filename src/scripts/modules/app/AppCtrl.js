@@ -4,6 +4,10 @@ require('./')
 /**
  * @ngInject
  */
-function AppCtrl() {
-  // @TODO insert content
+function AppCtrl($cordovaStatusbar) {
+  ionic.Platform.ready(function() {
+    if (ionic.Platform.isIOS() || ionic.Platform.isAndroid()) {
+      $cordovaStatusbar.hide();
+    }
+  });
 }
