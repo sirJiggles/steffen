@@ -4,7 +4,10 @@ require('./')
 /**
  * @ngInject
  */
-function IndexCtrl($cordovaDeviceOrientation, $cordovaGeolocation) {
+function IndexCtrl(
+  $cordovaDeviceOrientation,
+  $cordovaGeolocation,
+  $interval) {
 
   var vm = this,
       castDistance = 50,
@@ -19,11 +22,16 @@ function IndexCtrl($cordovaDeviceOrientation, $cordovaGeolocation) {
   // vars used for creating the shadow rules
   var shadow = '',
       opacity,
+      times,
+      sunsetIn,
+      sunriseIn,
       top,
       left,
       trail,
       lat,
       long;
+
+  vm.rising = false;
 
   // get the at long of the user
   $cordovaGeolocation.getCurrentPosition({
@@ -32,13 +40,25 @@ function IndexCtrl($cordovaDeviceOrientation, $cordovaGeolocation) {
   }).then(function(position){
     lat = position.coords.latitude;
     long = position.coords.longitude;
-
     updateShadow(0);
+
+    // store the times only once (when sunrise etc)
+    times = SunCalc.getTimes(new Date(), lat, long);
+    sunsetIn = new Date(times.sunset);
+    sunriseIn = new Date(times.sunrise);
+
+    // sunset / rise ticker
+    tick();
+    $interval(function() {
+      tick();
+    }, 1000);
   });
 
   ionic.Platform.ready(function() {
     watchCompass();
   });
+
+
 
   function watchCompass() {
     var options = {
@@ -90,6 +110,27 @@ function IndexCtrl($cordovaDeviceOrientation, $cordovaGeolocation) {
   function getSunLocation() {
     var position = SunCalc.getPosition(new Date(), lat, long);
     return position.azimuth;
+  }
+
+  // the ticker for the sunset / sunrise countdown
+  function tick() {
+    var now = new Date();
+    var diff = 0;
+
+    if (now < sunsetIn) {
+      vm.setText = 'Sunset in';
+      vm.rising = false;
+      diff = sunsetIn - now;
+    } else {
+      vm.setText = 'Sunrise in';
+      diff = now - sunriseIn;
+      vm.rising = true;
+    }
+
+    diff = diff - 3600000;
+
+    // not sure why and extra hour is getting added on  ...
+    vm.countdown = new Date(diff);
   }
 
 }

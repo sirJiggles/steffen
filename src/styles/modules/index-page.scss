@@ -1,4 +1,6 @@
-.index {
+$module: '.index';
+
+#{$module} {
   background-color: #E3C027 !important;
   $boxsize: 160;
 
@@ -21,6 +23,21 @@
     }
   }
 
+  .countdown {
+    position: absolute;
+    top: 30px;
+    width: 100%;
+    left: 0;
+    text-align: center;
+
+    &__type,
+    &__in {
+      color: white;
+      margin: 0;
+      padding: 0;
+    }
+  }
+
   .compass {
     position: absolute;
     bottom: 20px;
@@ -36,6 +53,15 @@
       transform-origin: center;
       transform: rotate(45deg);
       display: block;
+    }
+  }
+
+  // overides for the light version
+  &--dark {
+    background-color: #118EB8 !important;
+
+    .shadow__box {
+      background-color: lighten(#118EB8, 30%);
     }
   }
 }
