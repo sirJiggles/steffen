@@ -129,7 +129,7 @@ function IndexCtrl(
   }
 
   function updateShadow(deg) {
-    var azimuth = getSunLocation();
+    var azimuth = (vm.day) ? getSunLocation() : getMoonLocation();
     var sunDeg = (azimuth * 180 / Math.PI);
     var relativeDeg = deg - sunDeg;
     azimuth = (-relativeDeg / 180 * Math.PI);
@@ -154,8 +154,15 @@ function IndexCtrl(
     box.css({boxShadow: shadow});
   }
 
+  // get sun from lib
   function getSunLocation() {
     var position = SunCalc.getPosition(new Date(), lat, long);
+    return position.azimuth;
+  }
+
+  // get moon from lib
+  function getMoonLocation() {
+    var position = SunCalc.getMoonPosition(new Date(), lat, long);
     return position.azimuth;
   }
 
