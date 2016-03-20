@@ -10,7 +10,9 @@ module.exports = {
   copy: {
     paths: [
         // array of paths to copy over to dist, static files, for example fonts ..
-        // srcPath + '/fonts/**/*'
+        srcPath + '/fonts/**/*',
+        srcPath + '/images/**/*',
+        srcPath + '/sounds/**/*'
     ],
     base: srcPath,
   },

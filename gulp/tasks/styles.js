@@ -8,7 +8,8 @@ gulp.task('styles', 'Compile sass to css for the application', function() {
   return gulp.src(config.watch.css)
     .pipe(sourcemaps.init())
     .pipe(sass({
-      errLogToConsole: true
+      errLogToConsole: true,
+      outputStyle: 'compressed'
     }))
     .pipe(autoprefixer({
       browsers: ['last 2 versions'],

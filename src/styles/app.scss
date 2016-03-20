@@ -1,3 +1,6 @@
+@import "vars/index";
+@import "modules/index";
+
 body,
 html {
   width: 100%;
@@ -6,25 +9,22 @@ html {
   padding: 0;
 }
 
-body {
-  background-color: #E3C027;
-}
 
-$boxsize: 60;
+.view-100 {
+  &.pane {
+    bottom: 49px;
+    top: 0;
+    width: auto;
+    height: auto;
+    left: 0;
+    right: 0;
+  }
 
-.shadow {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: nowrap;
-  flex-direction: row;
-  height: 100%;
-
-  &__box {
-    align-self: center;
-    width: #{$boxsize}px;
-    height: #{$boxsize}px;
-    background-color: white;
-    position: relative;
+  .scroll {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
   }
 }

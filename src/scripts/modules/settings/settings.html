@@ -1,0 +1,22 @@
+<ion-view title="Settings" class="settings">
+  <ion-content>
+    <form name="settingsForm">
+      <div class="list">
+        <div class="item item-divider">
+          Settings
+        </div>
+        <label class="item item-input item-select">
+          <span class="input-label">
+            Rounds
+          </span>
+          <select
+            ng-model="vm.rounds"
+            required="required"
+            ng-change="vm.changes()"
+            ng-options="i for i in vm.possibleRounds">
+          </select>
+        </label>
+      </div>
+    </form>
+  </ion-content>
+</ion-view>

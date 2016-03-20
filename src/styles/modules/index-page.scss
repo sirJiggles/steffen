@@ -1,0 +1,22 @@
+.index {
+
+  background-color: #E3C027 !important;
+  $boxsize: 60;
+
+  .shadow {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    height: 100%;
+
+    &__box {
+      align-self: center;
+      width: #{$boxsize}px;
+      height: #{$boxsize}px;
+      background-color: white;
+      position: relative;
+    }
+  }
+}
