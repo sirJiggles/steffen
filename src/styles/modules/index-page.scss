@@ -1,7 +1,6 @@
 $module: '.index';
 
 #{$module} {
-  background-color: #E3C027 !important;
   $boxsize: 160;
 
   .shadow {
@@ -58,10 +57,9 @@ $module: '.index';
 
   // overides for the light version
   &--dark {
-    background-color: #118EB8 !important;
 
     .shadow__box {
-      background-color: lighten(#118EB8, 30%);
+      background-color: darken(white, 10%);
     }
   }
 }

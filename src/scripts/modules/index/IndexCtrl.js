@@ -31,6 +31,14 @@ function IndexCtrl(
       lat,
       long;
 
+  // Arrays for the different backgrounds that can be possible
+  var dawns = ['sand-babe','beach-towel','sky-blush','kentucky-dawn','slate-sunrise','blue-peach','pixy-dust','rainbow-pudding'],
+      days = ['pale-elm','pastel-daylight','dolphin','field-day','seafoam-sun','brilliant-sky','mountain-time','candy-day'],
+      sunsets = ['bruised-grape','violet-blush','lavender-skies','purple-sunset','brownie','tequila-sunset','sutro','berry-juice'],
+      nights = ['indigo-magic','lady-night','mauve-hour','magic-hour','grape-soda','coyier-magic','baseball-field','miami-strip'];
+
+
+  vm.background = 'sand-babe';
   vm.rising = false;
 
   // get the at long of the user
@@ -40,7 +48,6 @@ function IndexCtrl(
   }).then(function(position){
     lat = position.coords.latitude;
     long = position.coords.longitude;
-    updateShadow(0);
 
     // store the times only once (when sunrise etc)
     times = SunCalc.getTimes(new Date(), lat, long);
@@ -52,13 +59,41 @@ function IndexCtrl(
     $interval(function() {
       tick();
     }, 1000);
+
+    updateScreen();
+    $interval(function() {
+      updateScreen();
+    }, 300000);
+
   });
 
   ionic.Platform.ready(function() {
     watchCompass();
   });
 
+  // this is called every five mins for things like bg
+  function updateScreen() {
+    updateShadow(0);
+    // Pick the gradient for the background
+    var now = new Date();
+    var gradient = '';
 
+    if (now > times.dawn && now < times.sunriseEnd) {
+      gradient = pickRandomItem(dawns);
+    } else if(now > times.sunriseEnd && now < times.sunsetStart) {
+      gradient = pickRandomItem(days);
+    } else if(now < times.sunsetStart && now < times.sunsetEnd) {
+      gradient = pickRandomItem(sunsets);
+    } else {
+      gradient = pickRandomItem(nights);
+    }
+
+    vm.background = gradient;
+  }
+
+  function pickRandomItem(array) {
+    return array[Math.floor(Math.random()*array.length)];
+  }
 
   function watchCompass() {
     var options = {
@@ -123,7 +158,7 @@ function IndexCtrl(
       diff = sunsetIn - now;
     } else {
       vm.setText = 'Sunrise in';
-      diff = now - sunriseIn;
+      diff = sunriseIn - now;
       vm.rising = true;
     }
 
