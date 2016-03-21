@@ -91,7 +91,7 @@ function IndexCtrl(
   function checkIfNight() {
     // check if it is night
     var now = new Date();
-    if (now > times.sunset) {
+    if (now > times.sunset || now < times.sunrise) {
       vm.day = false;
     }
 
@@ -109,7 +109,7 @@ function IndexCtrl(
       vm.background = pickRandomItem(dawns);
     } else if(now > times.sunriseEnd && now < times.sunsetStart) {
       vm.background = pickRandomItem(days);
-    } else if(now < times.sunsetStart && now < times.sunset) {
+    } else if(now > times.sunsetStart && now < times.sunset) {
       vm.background = pickRandomItem(sunsets);
     } else {
       vm.background = pickRandomItem(nights);

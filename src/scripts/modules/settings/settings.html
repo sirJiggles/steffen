@@ -8,12 +8,15 @@
           <input
             id="location"
             type="text"
+            ng-model="vm.place"
+            g-places-autocomplete
+            ng-change="vm.locationUpdate()"
             placeholder="Custom Location">
         </label>
         <div class="item">
           <button
             class="button button-full"
-            ng-mousedown="vm.resetLocation()">
+            ng-click="vm.resetLocation()">
             Clear location
           </button>
         </div>

@@ -1,6 +1,7 @@
 module.exports = angular.module('app', [
   'ui.router',
   'ionic',
+  'google.places',
   'ngCordova',
   'ngAnimate',
   require('../index').name,
