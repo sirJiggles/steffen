@@ -27,6 +27,8 @@ function IndexCtrl(
       left,
       trail,
       lat,
+      sunrise = false,
+      sunset = false,
       long;
 
   // Arrays for the different backgrounds that can be possible
@@ -34,7 +36,6 @@ function IndexCtrl(
       days = ['pale-elm','pastel-daylight','dolphin','field-day','seafoam-sun','brilliant-sky','mountain-time','candy-day'],
       sunsets = ['bruised-grape','violet-blush','lavender-skies','purple-sunset','brownie','tequila-sunset','sutro','berry-juice'],
       nights = ['indigo-magic','lady-night','mauve-hour','magic-hour','grape-soda','coyier-magic','baseball-field','miami-strip'];
-
 
   // some defaults
   vm.background = 'sand-babe';
@@ -81,7 +82,7 @@ function IndexCtrl(
     updateScreen();
     $interval(function() {
       updateScreen();
-    }, 300000);
+    }, 30000);
   }
 
   function checkIfNight() {
@@ -102,13 +103,19 @@ function IndexCtrl(
     var now = new Date();
 
     if (now > times.dawn && now < times.sunriseEnd) {
+      sunrise = true;
       vm.background = pickRandomItem(dawns);
     } else if(now > times.sunriseEnd && now < times.sunsetStart) {
       vm.background = pickRandomItem(days);
+      sunrise = false;
+      sunset = false;
     } else if(now > times.sunsetStart && now < times.sunset) {
+      sunset = true;
       vm.background = pickRandomItem(sunsets);
     } else {
       vm.background = pickRandomItem(nights);
+      sunrise = false;
+      sunset = false;
     }
   }
 
@@ -146,6 +153,7 @@ function IndexCtrl(
     var relativeDeg = deg - sunDeg;
     azimuth = (-relativeDeg / 180 * Math.PI);
 
+    // create direction vector for the shadow
     castTop = Math.sin(azimuth);
     castLeft = -Math.cos(azimuth);
 
@@ -153,8 +161,9 @@ function IndexCtrl(
     shadow = '';
 
     // work out the cast distance form the sun lib ;)
-    var diffPercent = ((position.altitude / (Math.PI/2)) * 100).toFixed(2);
-    castDistance = Math.ceil(((100 - diffPercent) / 100) * 60);
+    var percentInSky = ((Math.abs(position.altitude) / (Math.PI/3)) * 100).toFixed(2);
+    var amountShadowPercent = 100 - percentInSky;
+    castDistance = Math.ceil((amountShadowPercent / 100) * 60);
 
     for (var i = 1; i <= castDistance; i++) {
       // opacity is based on how much of the shadow is left to be cast
@@ -188,17 +197,26 @@ function IndexCtrl(
     var now = checkIfNight();
 
     if (vm.day) {
-      vm.setText = 'Sunset in';
-      diff = times.sunsetStart - now;
+      if (sunrise) {
+        vm.setText = 'Sunrise!';
+      } else if (sunset) {
+        vm.setText = 'Sunset!';
+      } else {
+        vm.setText = 'Sunset in';
+        diff = times.sunsetStart - now;
+      }
     } else {
       vm.setText = 'Sunrise in';
       diff = times.sunrise - now;
     }
 
-    // strange that we need to remove an hour ..
-    diff = diff - 3600000;
-
-    vm.countdown = new Date(diff);
+    if (diff) {
+      // strange that we need to remove an hour ..
+      diff = diff - 3600000;
+      vm.countdown = new Date(diff);
+    } else {
+      vm.countdown = false;
+    }
   }
 
 }

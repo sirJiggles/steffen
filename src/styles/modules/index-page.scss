@@ -3,6 +3,10 @@ $module: '.index';
 #{$module} {
   $boxsize: 160;
 
+  .gradient {
+    transition: background linear 5s;
+  }
+
   .shadow {
     display: flex;
     justify-content: center;

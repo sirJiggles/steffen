@@ -12,7 +12,7 @@
       <h1 class="countdown__type">
         {{vm.setText}}
       </h1>
-      <h2 class="countdown__in">
+      <h2 class="countdown__in" ng-show="vm.countdown">
         {{vm.countdown | date : 'HH:mm:ss'}}
       </h2>
     </div>
