@@ -24,7 +24,6 @@ function SettingsCtrl(settingsService) {
   }
 
   function locationUpdate() {
-    console.log(vm.place);
     if (vm.place.geometry) {
       // store the location
       settingsService.setLocation({

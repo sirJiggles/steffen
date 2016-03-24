@@ -63,10 +63,6 @@ function IndexCtrl(
   });
 
   function run(position) {
-    // ozzy
-    // lat = 33.8650;
-    // long = 151.2094;
-    //
     lat = position.lat;
     long = position.long;
 
@@ -143,7 +139,9 @@ function IndexCtrl(
   }
 
   function updateShadow(deg) {
-    var azimuth = (vm.day) ? getSunLocation() : getMoonLocation();
+    var position = (vm.day) ? getSunPosition() : getMoonPosition();
+
+    var azimuth = position.azimuth;
     var sunDeg = (azimuth * 180 / Math.PI);
     var relativeDeg = deg - sunDeg;
     azimuth = (-relativeDeg / 180 * Math.PI);
@@ -153,6 +151,10 @@ function IndexCtrl(
 
     // reset shadow before casting a new one
     shadow = '';
+
+    // work out the cast distance form the sun lib ;)
+    var diffPercent = ((position.altitude / (Math.PI/2)) * 100).toFixed(2);
+    castDistance = Math.ceil(((100 - diffPercent) / 100) * 60);
 
     for (var i = 1; i <= castDistance; i++) {
       // opacity is based on how much of the shadow is left to be cast
@@ -169,15 +171,13 @@ function IndexCtrl(
   }
 
   // get sun from lib
-  function getSunLocation() {
-    var position = SunCalc.getPosition(new Date(), lat, long);
-    return position.azimuth;
+  function getSunPosition() {
+    return SunCalc.getPosition(new Date(), lat, long);
   }
 
   // get moon from lib
-  function getMoonLocation() {
-    var position = SunCalc.getMoonPosition(new Date(), lat, long);
-    return position.azimuth;
+  function getMoonPosition() {
+    return SunCalc.getMoonPosition(new Date(), lat, long);
   }
 
   // the ticker for the sunset / sunrise countdown

@@ -1,0 +1,33 @@
+{
+    "prepare_queue": {
+        "installed": [],
+        "uninstalled": []
+    },
+    "config_munge": {
+        "files": {}
+    },
+    "installed_plugins": {
+        "cordova-plugin-console": {
+            "PACKAGE_NAME": "garethfuller.steffen"
+        },
+        "cordova-plugin-crosswalk-webview": {
+            "PACKAGE_NAME": "garethfuller.steffen"
+        },
+        "cordova-plugin-device-orientation": {
+            "PACKAGE_NAME": "garethfuller.steffen"
+        },
+        "cordova-plugin-geolocation": {
+            "PACKAGE_NAME": "garethfuller.steffen"
+        },
+        "cordova-plugin-splashscreen": {
+            "PACKAGE_NAME": "garethfuller.steffen"
+        },
+        "cordova-plugin-statusbar": {
+            "PACKAGE_NAME": "garethfuller.steffen"
+        },
+        "cordova-plugin-whitelist": {
+            "PACKAGE_NAME": "garethfuller.steffen"
+        }
+    },
+    "dependent_plugins": {}
+}
