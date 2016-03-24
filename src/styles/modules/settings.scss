@@ -10,7 +10,7 @@
     border-top-left-radius: 4px;
     border-top-right-radius: 4px;
   }
-  
+
   .credits {
     margin-bottom: 60px !important;
   }
@@ -24,6 +24,7 @@
 
     input {
       color: white;
+      height: 50px;
     }
 
     h3, a {
@@ -56,6 +57,10 @@
       background: rgba(white,0.3);
       border-radius: 4px;
       color: rgba(white,0.7);
+
+      &.activated {
+        background: rgba(white,0.4);
+      }
     }
 
   }

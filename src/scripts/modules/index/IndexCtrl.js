@@ -55,7 +55,7 @@ function IndexCtrl(
     });
 
   } else {
-    run(settingsLatLong);
+    run(settingsLatLong.position);
   }
 
   ionic.Platform.ready(function() {
