@@ -1,6 +1,11 @@
 <ion-view title="Home" class="index view-100" ng-class="{'index--dark' : !vm.day}">
 
-  <ion-content class="gradient" ng-class="vm.background" has-bouncing="false">
+  <ion-content has-bouncing="false">
+    <div class="gradient" ng-class="vm.getBackgroundOne()">
+    </div>
+    <div class="gradient" ng-class="vm.getBackgroundTwo()">
+    </div>
+    
     <div class="shadow">
       <div class="shadow__box"></div>
     </div>

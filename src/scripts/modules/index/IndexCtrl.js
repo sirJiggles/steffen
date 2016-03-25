@@ -13,7 +13,7 @@ function IndexCtrl(
   // init all our vars
   var vm = this,
       castDistance = 50,
-      color = 0,
+      color = 68,
       castTop = 0,
       castLeft = 0,
       compass = angular.element(document.querySelector('.compass')),
@@ -29,6 +29,9 @@ function IndexCtrl(
       lat,
       sunrise = false,
       sunset = false,
+      backgroundOne = 'sand-babe',
+      backgroundTwo = 'kentucky-dawn',
+      bgMode = 1,
       long;
 
   // Arrays for the different backgrounds that can be possible
@@ -37,8 +40,11 @@ function IndexCtrl(
       sunsets = ['bruised-grape','violet-blush','lavender-skies','purple-sunset','brownie','tequila-sunset','sutro','berry-juice'],
       nights = ['indigo-magic','lady-night','mauve-hour','magic-hour','grape-soda','coyier-magic','baseball-field','miami-strip'];
 
-  // some defaults
-  vm.background = 'sand-babe';
+  // lame that we need to do this but we cant animate bg gradients in CSS
+  vm.getBackgroundOne = getBackgroundOne;
+  vm.getBackgroundTwo = getBackgroundTwo;
+
+  // boolean for the day
   vm.day = true;
 
   var settingsLatLong = settingsService.getLocation();
@@ -82,7 +88,7 @@ function IndexCtrl(
     updateScreen();
     $interval(function() {
       updateScreen();
-    }, 30000);
+    }, 20000);
   }
 
   function checkIfNight() {
@@ -96,27 +102,44 @@ function IndexCtrl(
     return now;
   }
 
-  // this is called every five mins for things like bg
+  // this is called every few mins for things like bg
   function updateScreen() {
     updateShadow(compassRotate);
     // Pick the gradient for the background
-    var now = new Date();
+    var now = new Date(),
+        newBackground;
 
     if (now > times.dawn && now < times.sunriseEnd) {
       sunrise = true;
-      vm.background = pickRandomItem(dawns);
+      newBackground = pickRandomItem(dawns);
     } else if(now > times.sunriseEnd && now < times.sunsetStart) {
-      vm.background = pickRandomItem(days);
+      newBackground = pickRandomItem(days);
       sunrise = false;
       sunset = false;
     } else if(now > times.sunsetStart && now < times.sunset) {
       sunset = true;
-      vm.background = pickRandomItem(sunsets);
+      newBackground = pickRandomItem(sunsets);
     } else {
-      vm.background = pickRandomItem(nights);
+      newBackground = pickRandomItem(nights);
       sunrise = false;
       sunset = false;
     }
+
+    if (bgMode === 2) {
+      backgroundOne = newBackground;
+      bgMode = 1;
+    } else {
+      bgMode = 2;
+      backgroundTwo = newBackground;
+    }
+  }
+
+  function getBackgroundOne() {
+    return (bgMode === 1) ? backgroundOne : 'fade-out '+backgroundOne;
+  }
+
+  function getBackgroundTwo() {
+    return (bgMode === 2) ? backgroundTwo : 'fade-out '+backgroundTwo;
   }
 
   // pick a random for gradient
@@ -159,11 +182,6 @@ function IndexCtrl(
 
     // reset shadow before casting a new one
     shadow = '';
-
-    // work out the cast distance form the sun lib ;)
-    var percentInSky = ((Math.abs(position.altitude) / (Math.PI/3)) * 100).toFixed(2);
-    var amountShadowPercent = 100 - percentInSky;
-    castDistance = Math.ceil((amountShadowPercent / 100) * 60);
 
     for (var i = 1; i <= castDistance; i++) {
       // opacity is based on how much of the shadow is left to be cast
