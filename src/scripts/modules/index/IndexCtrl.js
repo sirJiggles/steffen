@@ -12,8 +12,8 @@ function IndexCtrl(
 
   // init all our vars
   var vm = this,
-      castDistance = 50,
-      color = 68,
+      castDistance = 40,
+      color = 0,
       castTop = 0,
       castLeft = 0,
       compass = angular.element(document.querySelector('.compass')),

@@ -30,12 +30,6 @@
     <string>0.0.8</string>
     <key>LSRequiresIPhoneOS</key>
     <true/>
-    <key>NSMainNibFile</key>
-    <string></string>
-    <key>NSMainNibFile~ipad</key>
-    <string></string>
-    <key>UIRequiresFullScreen</key>
-    <true/>
     <key>NSAppTransportSecurity</key>
     <dict>
       <key>NSAllowsArbitraryLoads</key>
@@ -74,5 +68,13 @@
     </dict>
     <key>NSLocationWhenInUseUsageDescription</key>
     <string></string>
+    <key>NSMainNibFile</key>
+    <string></string>
+    <key>NSMainNibFile~ipad</key>
+    <string></string>
+    <key>UIRequiresFullScreen</key>
+    <true/>
+    <key>UIStatusBarHidden</key>
+    <true/>
   </dict>
 </plist>
