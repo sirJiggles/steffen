@@ -148,12 +148,7 @@ function IndexCtrl(
   }
 
   function watchCompass() {
-    var options = {
-      frequency: 3000,
-      filter: true
-    };
-
-    var watch = $cordovaDeviceOrientation.watchHeading(options).then(
+    var watch = $cordovaDeviceOrientation.watchHeading().then(
       null,
       function(error) {
         // An error occurred
